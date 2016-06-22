@@ -198,7 +198,7 @@ def plural(n):
 #    a=read_data(sys.argv[1])
 #    #print a
     
-fname = '/Users/frederictheunissen/Documents/Data/Chronic V2/HPG8003/hpg8003_day_2_160503_095828.rhd'
-result = read_data(fname)
+# fname = '/Users/frederictheunissen/Documents/Data/Chronic V2/HPG8003/hpg8003_day_2_160503_095828.rhd'
+# result = read_data(fname)
 
 
