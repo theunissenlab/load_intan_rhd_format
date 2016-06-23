@@ -29,13 +29,13 @@ def read_one_data_block(data, header, indices, fid):
 
     if header['num_supply_voltage_channels'] > 0:
         tmp = np.fromfile(fid, dtype='uint16', count=1 * header['num_supply_voltage_channels'])
-        tmpfloat = np.multiply(74.8e-6, tmp)     # units = volts
-        data['supply_voltage_data'][range(header['num_supply_voltage_channels']), indices['supply_voltage']:(indices['supply_voltage']+1)] = tmpfloat.reshape(header['num_supply_voltage_channels'], 1)
+        # tmpfloat = np.multiply(74.8e-6, tmp)     # units = volts
+        # data['supply_voltage_data'][range(header['num_supply_voltage_channels']), indices['supply_voltage']:(indices['supply_voltage']+1)] = tmpfloat.reshape(header['num_supply_voltage_channels'], 1)
 
     if header['num_temp_sensor_channels'] > 0:
         tmp = np.fromfile(fid, dtype='uint16', count=1 * header['num_temp_sensor_channels'])
-        tmpfloat = np.multiply(0.01, tmp) 
-        data['temp_sensor_data'][range(header['num_temp_sensor_channels']), indices['supply_voltage']:(indices['supply_voltage']+1)] = tmpfloat.reshape(header['num_temp_sensor_channels'], 1)
+        # tmpfloat = np.multiply(0.01, tmp)
+        # data['temp_sensor_data'][range(header['num_temp_sensor_channels']), indices['supply_voltage']:(indices['supply_voltage']+1)] = tmpfloat.reshape(header['num_temp_sensor_channels'], 1)
 
     if header['num_board_adc_channels'] > 0:
         tmp = np.fromfile(fid, dtype='uint16', count=60 * header['num_board_adc_channels'])
@@ -49,5 +49,6 @@ def read_one_data_block(data, header, indices, fid):
         data['board_dig_in_raw'][indices['board_dig_in']:(indices['board_dig_in']+60)] = np.array(struct.unpack('<' + 'H' *60, fid.read(120)))
 
     if header['num_board_dig_out_channels'] > 0:
-        data['board_dig_out_raw'][indices['board_dig_out']:(indices['board_dig_out']+60)] = np.array(struct.unpack('<' + 'H' *60, fid.read(120)))
+        tmp = fid.read(120)
+        # data['board_dig_out_raw'][indices['board_dig_out']:(indices['board_dig_out']+60)] = np.array(struct.unpack('<' + 'H' *60, tmp))
 
