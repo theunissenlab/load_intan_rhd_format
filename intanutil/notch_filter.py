@@ -4,6 +4,7 @@
 
 import math
 import numpy as np
+from scipy import signal
 
 def notch_filter(input, fSample, fNotch, Bandwidth):
     """Implements a notch filter (e.g., for 50 or 60 Hz) on vector 'input'.
@@ -36,15 +37,22 @@ def notch_filter(input, fSample, fNotch, Bandwidth):
     b0 = 1.0
     b1 = -2.0 * math.cos(2.0*math.pi*Fc)
     b2 = 1.0
+    
+    # The scipy lfilter function performs the convolution using diff equations and is much faster
+    asig = np.array([a0, a1, a2])
+    bsig = np.array([a*b0, a*b1, a*b2])
+    
+    out = signal.lfilter(bsig, asig, input)
 
-    out = np.zeros(len(input))
-    out[0] = input[0]
-    out[1] = input[1]
+    # This was the original code
+    # out = np.zeros(len(input))
+    #out[0] = input[0]
+    # out[1] = input[1]
     # (If filtering a continuous data stream, change out[0:1] to the
     #  previous final two values of out.)
 
     # Run filter
-    for i in range(2,L):
-        out[i] = (a*b2*input[i-2] + a*b1*input[i-1] + a*b0*input[i] - a2*out[i-2] - a1*out[i-1])/a0
+    #for i in range(2,L):
+    #  out[i] = (a*b2*input[i-2] + a*b1*input[i-1] + a*b0*input[i] - a2*out[i-2] - a1*out[i-1])/a0
 
     return out
